@@ -1,0 +1,1 @@
+# rabbitmq-mesos-framework
