@@ -1,32 +1,24 @@
 {
   "id": "cluster-rabbitmq",
   "cpus": 1,
-  "mem": 1024,
-  "instances": 3,
+  "mem": 256,
+  "instances": 1,
   "constraints": [
     ["hostname", "UNIQUE"],
     ["cluster-rabbitmq-host", "CLUSTER", "true"]
   ],
   "env": {
-    "RABBITMQ_ERLANG_COOKIE": "my_secret_erlrang_cookie",
     "RABBITMQ_DEFAULT_USER": "admin",
-    "RABBITMQ_DEFAULT_PASS": "my_secret_pass"
+    "RABBITMQ_DEFAULT_PASS": "cervedbi"
   },
   "container": {
     "type": "DOCKER",
     "docker": {
-      "image": "docker.io/toyhoshi/installrabbitmq",
+      "image": "docker.io/toyhoshi/rabbitmq-dcos",
       "forcePullImage": true,
       "network": "HOST",
-      "privileged": true,
-    },
-    "volumes": [
-      {
-        "containerPath": "/var/lib/rabbitmq",
-        "hostPath": "/var/lib/rabbitmq",
-        "mode": "RW"
-      }
-    ]
+      "privileged": true
+    }
   },
   "healthChecks": [
     {
@@ -38,3 +30,4 @@
     "minimumHealthCapacity": 0,
     "maximumOverCapacity": 0
   }
+}
