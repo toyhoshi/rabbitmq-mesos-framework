@@ -2,11 +2,8 @@
   "id": "cluster-rabbitmq",
   "cpus": 1,
   "mem": 256,
-  "instances": 1,
-  "constraints": [
-    ["hostname", "UNIQUE"],
-    ["cluster-rabbitmq-host", "CLUSTER", "true"]
-  ],
+  "cmd": "/instRMQ/driver.py -dc http://test-dcos1.cervedgroup.com -rn rabbit",
+  "instances": 3,
   "env": {
     "RABBITMQ_DEFAULT_USER": "admin",
     "RABBITMQ_DEFAULT_PASS": "cervedbi"
@@ -14,11 +11,14 @@
   "container": {
     "type": "DOCKER",
     "docker": {
-      "image": "docker.io/toyhoshi/rabbitmq-dcos",
+      "image": "docker.io/toyhoshi/rmq-dcos:v1",
       "forcePullImage": true,
       "network": "HOST",
       "privileged": true
     }
+  },
+  "env": {
+    "PORTS": "5672,15672,25672,4369"
   },
   "healthChecks": [
     {

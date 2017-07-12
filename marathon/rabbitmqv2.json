@@ -1,0 +1,48 @@
+{
+  "id": "cluster-rmq",
+  "cpus": 1,
+  "mem": 256,
+  "cmd": "/instRMQ/driver.py -dc http://test-dcos1.cervedgroup.com -rn rabbit",
+  "instances": 3,
+  "env": {
+    "RABBITMQ_CONF_ENV_FILE": "/instRMQ/rabbitmq-envX.conf",
+    "RABBITMQ_DEFAULT_USER": "admin",
+    "RABBITMQ_DEFAULT_PASS": "cervedbi"
+  },
+  "container": {
+    "type": "DOCKER",
+    "docker": {
+      "image": "docker.io/toyhoshi/rmq-dcos:v2",
+      "network": "BRIDGE",
+      "portMappings": [
+        { "containerPort": 5672, "hostPort": 5672 },
+        { "containerPort": 15672, "hostPort": 15672 },
+        { "containerPort": 25672, "hostPort": 25672 },
+        { "containerPort": 4369, "hostPort": 4369 },
+	{ "containerPort": 5000, "hostPort": 5000 },
+	{ "containerPort": 5671, "hostPort": 5671 }
+      ],	
+      "forcePullImage": true,
+      "privileged": true
+    }
+  },
+ "healthChecks": [
+    {
+      "gracePeriodSeconds": 600,
+      "intervalSeconds": 60,
+      "timeoutSeconds": 20,
+      "maxConsecutiveFailures": 3,
+      "portIndex": 0,
+      "path": "/",
+      "protocol": "COMMAND",
+      "delaySeconds": 15,
+      "command": {
+        "value": "curl -s \"http://localhost:5000/\" | grep \"RUNNING\""
+      }
+    }
+  ],
+  "upgradeStrategy": {
+    "minimumHealthCapacity": 0,
+    "maximumOverCapacity": 0
+  }
+}
