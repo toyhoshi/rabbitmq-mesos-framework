@@ -6,8 +6,8 @@ MAINTAINER Marco Varagnolo (marco.varagnolo@gmail.com)
 # RUN rabbitmq-plugins enable rabbitmq_management
 
 # Install Python and relevant libraries
-RUN export http_proxy=http://cg00353:Cerved321@proxy.cervedgroup.com:8080 \
-    && export https_proxy=http://cg00353:Cerved321@proxy.cervedgroup.com:8080 \ 
+RUN export http_proxy=http://xxxx \
+    && export https_proxy=http://xxxx \ 
     && apt-get update \
     && apt-get install -y python python-pip python-dev vim curl telnet dnsutils \
     && pip install flask docopt psutil requests urllib 
